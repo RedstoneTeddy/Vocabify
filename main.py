@@ -1,0 +1,115 @@
+from os import path as os_path
+from os import chdir as os_chdir
+import pygame
+import time
+import easygui
+
+
+pygame.init()
+
+directory = os_path.dirname(os_path.abspath(__file__))
+os_chdir(directory) #Small Bugfix, that in some situations, the code_path isn't correct
+
+
+
+import functions
+import logger
+
+#Version
+version = "0.0.1"
+
+debug = False
+log = False
+debug_clicked = False
+fullscreen_pressed = False
+data = functions.init_data()
+logger.Add(data,"main","main",0,"This is the logger. Any logged Info will be in here...")
+
+
+screen = pygame.display.set_mode(size=(1000,600),flags=pygame.RESIZABLE+pygame.SHOWN)
+pygame.display.set_caption("Vocabify")
+
+
+try:   
+    while data.get("run") == True:
+        start_time = time.time_ns()
+
+        screen.fill(data.get("settings").get("color1"))
+        
+        if pygame.display.get_surface().get_size()[0] != data.get("width") or pygame.display.get_surface().get_size()[1] != data.get("height"):
+            data["width"] = pygame.display.get_surface().get_size()[0]
+            data["height"] = pygame.display.get_surface().get_size()[1]
+            data["resize"] = True
+
+
+            
+        #Debug & Logger
+        if pygame.key.get_pressed()[pygame.K_q] == True:
+            if debug_clicked == False:
+                debug_clicked = True
+                debug = not(debug)
+        else:
+            if pygame.key.get_pressed()[pygame.K_l] == True:
+                if debug_clicked == False:
+                    debug_clicked = True
+                    log = not(log)
+            else:
+                debug_clicked = False
+        if debug == True:
+            pygame.draw.rect(screen,(255,255,255),(0,0,200,46))
+            functions.draw_text(f"AVG MSPF: {data.get('avg_mspf')}|{data.get('long_avg_mspf')}",data.get("font_data").get("20"),(0,0,0),(3,3),screen)
+            functions.draw_text(f"Mouse Pos: {pygame.mouse.get_pos()}",data.get("font_data").get("20"),(0,0,0),(3,23),screen)
+        if data.get("resize") == True:
+            data["resize"] = False
+        if log == True or data.get("log_timer") > 0:
+            logger.Main(data,screen,log)
+        
+        #Fullscreen
+        if pygame.key.get_pressed()[pygame.K_F11] == True:
+            if fullscreen_pressed == False:
+                fullscreen_pressed = True
+                if data.get("fullscreen") == True:
+                    data["fullscreen"] = False
+                    screen = pygame.display.set_mode(size=(1000,600),flags=pygame.RESIZABLE+pygame.SHOWN)
+                    logger.Add(data,"main","Main",0,"Changed to Windowed Screen")
+                else:
+                    data["fullscreen"] = True
+                    screen = pygame.display.set_mode(size=(0,0),flags=pygame.RESIZABLE+pygame.FULLSCREEN)
+                    logger.Add(data,"main","Main",0,"Changed to Fullscreen")
+        else:
+            fullscreen_pressed = False
+        
+
+        if data.get("mouse_wheel") != None:
+            data["mouse_wheel"] = None
+
+        pygame.display.update()
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                data["run"] = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 4:
+                    data["mouse_wheel"] = "up"
+                if event.button == 5:
+                    data["mouse_wheel"] = "down"
+
+        end_time = time.time_ns()
+        data["mspf"] = round((end_time-start_time)/1000000,1)
+        functions.calc_avg_mspf(data)
+
+        # Wait until max mspf is reached
+        if data.get("mspf") < 1000/60:
+            time.sleep((1000/60-data.get("mspf"))/1000)
+except:
+    easygui.exceptionbox(f"A fatal Error occured in the Vocabify App and the program crashed! Log:\n{data.get('log_list')}","Vocabify-Error!")
+    data["run"] = False
+
+
+pygame.quit()
+
+
+
+
+
+
