@@ -1,5 +1,6 @@
 from os import path as os_path
 from os import chdir as os_chdir
+from os import mkdir as os_mkdir
 import pygame
 import time
 import easygui
@@ -16,7 +17,7 @@ import functions
 import logger
 
 #Version
-version = "0.0.1"
+version = "0.1.0"
 
 debug = False
 log = False
@@ -30,6 +31,21 @@ screen = pygame.display.set_mode(size=(1000,600),flags=pygame.RESIZABLE+pygame.S
 pygame.display.set_caption("Vocabify")
 
 
+#Check for cards-folder and settings file
+if os_path.exists("settings.dat"):
+    functions.Load_settings(data)
+else:
+    functions.Save_settings(data)
+if not(os_path.isdir("cards")):
+    os_mkdir("cards")
+    
+
+#Object initialization
+import menu
+menu_obj = menu.Menu(data,screen)
+
+
+
 try:   
     while data.get("run") == True:
         start_time = time.time_ns()
@@ -40,6 +56,13 @@ try:
             data["width"] = pygame.display.get_surface().get_size()[0]
             data["height"] = pygame.display.get_surface().get_size()[1]
             data["resize"] = True
+        
+
+        match data.get("mode"):
+            case "menu":
+                menu_obj.Main()
+            case other:
+                raise ValueError("Unknown mode!")
 
 
             
@@ -107,6 +130,7 @@ except:
 
 
 pygame.quit()
+functions.Save_settings(data)
 
 
 

@@ -21,7 +21,7 @@ def calc_avg_mspf(data):
 
 def Font(size,data):
     data = data["font_data"]
-    needed_size = str(int(round(size*data.get("slide_zoom"),0)))
+    needed_size = str(int(size))
     if data.get(needed_size) == None:
         data[needed_size] = pygame.font.Font('images/calibri.TTF',int(needed_size))
     return data.get(needed_size)
@@ -36,6 +36,7 @@ def init_data():
     font24 = pygame.font.Font('images/calibri.TTF',24)
     font30 = pygame.font.Font('images/calibri.TTF',30)
     font40 = pygame.font.Font('images/calibri.TTF',40)
+    font_title = pygame.font.Font('images/title.TTF',80)
 
 
     data = {
@@ -63,18 +64,39 @@ def init_data():
             "20":font20,
             "24":font24,
             "30":font30,
-            "40":font40
+            "40":font40,
+            "title":font_title
             },
         "log_list":[],
         "log_timer":0,
-        "fullscreen":False
+        "fullscreen":False,
+        "mode":"menu"
     }
     return data
 
 
 
+def Save_settings(data):
+    file = open("settings.dat","w")
+    settings_text = ""
+    settings_text += f"{data.get('settings').get('color1')}\n"
+    settings_text += f"{data.get('settings').get('color2')}\n"
+    settings_text += f"{data.get('settings').get('color3')}\n"
+    settings_text += f"{data.get('settings').get('color_text')}\n"
+    file.write(settings_text)
+    file.close()
 
 
+def Load_settings(data):
+    file = open("settings.dat","r")
+    lines = file.readlines()
+    for i in range(len(lines)):
+        lines[i] = lines[i].replace("\n","")
+    data["settings"]["color1"] = eval(lines[0])
+    data["settings"]["color2"] = eval(lines[1])
+    data["settings"]["color3"] = eval(lines[2])
+    data["settings"]["color_text"] = eval(lines[3])
+    file.close()
 
 
 
