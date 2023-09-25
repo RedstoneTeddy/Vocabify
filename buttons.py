@@ -45,7 +45,7 @@ class Button():
         self.clicked = False
         self.data = data
 
-    def Button(self,rect:list,round_corner:int,background_color:list,line_color:list,text:list[str],font_size:int,img:pygame.image=None) -> None:
+    def Button(self,rect:list,round_corner:int,background_color:list,line_color:list,text:list[str],font_size:int,img:pygame.image=None,middle_text=True) -> None:
         '''
         Displays a button
 
@@ -80,9 +80,16 @@ class Button():
         for text_line in text:
             i += 1
             if img != None:
-                Center_draw_text(str(text_line),self.data["fonts"](font_size,self.data),line_color,(rect[0],((rect[3]-(img_size[1]+len(text)*(font_size+2)+10))//2+rect[1])+img_size[1]+10+i*(font_size+2)),(rect[2],font_size+2),self.screen)
+                if middle_text == True:
+                    Center_draw_text(str(text_line),self.data["fonts"](font_size,self.data),line_color,(rect[0],((rect[3]-(img_size[1]+len(text)*(font_size+2)+10))//2+rect[1])+img_size[1]+10+i*(font_size+2)),(rect[2],font_size+2),self.screen)
+                else:
+                    Draw_text(str(text_line),self.data["fonts"](font_size,self.data),line_color,rect[0]+4,((rect[3]-(img_size[1]+len(text)*(font_size+2)+10))//2+rect[1])+img_size[1]+10+i*(font_size+2),self.screen)
             else:
-                Center_draw_text(str(text_line),self.data["fonts"](font_size,self.data),line_color,(rect[0],rect[1]+rect[3]//2+i*(font_size+2)),(rect[2],font_size+2),self.screen)
+                if middle_text == True:
+                    Center_draw_text(str(text_line),self.data["fonts"](font_size,self.data),line_color,(rect[0],rect[1]+rect[3]//2+i*(font_size+2)),(rect[2],font_size+2),self.screen)
+                else:
+                    Draw_text(str(text_line),self.data["fonts"](font_size,self.data),line_color,rect[0]+4,rect[1]+rect[3]//2+i*(font_size+2),self.screen)
+
 
 
         if pygame.mouse.get_pressed()[0] == True:

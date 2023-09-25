@@ -1,6 +1,8 @@
 import buttons
 import pygame
 import functions
+import easygui
+import os
 pygame.init()
 
 def Calculated_moving_pos(start:list,end:list,max_time:int,time:int):
@@ -52,13 +54,14 @@ class Menu():
         self.img_edit = pygame.transform.scale(pygame.image.load("images/menu/edit.png").convert_alpha(),(64,64))
         self.img_settings = pygame.transform.scale(pygame.image.load("images/menu/settings.png").convert_alpha(),(64,64))
         self.img_home = pygame.transform.scale(pygame.image.load("images/menu/home.png").convert_alpha(),(32,32))
+        self.img_small_edit = pygame.transform.scale(pygame.image.load("images/menu/edit.png").convert_alpha(),(32,32))
 
     def Main(self):
         self.screen.fill(self.data.get("settings").get("color1"))
         functions.draw_text("Vocabify", self.data.get("font_data").get("title"),self.data["settings"]["color_text"],(self.data.get("width")//2-160,50),self.screen)
 
 
-
+        # Main Code for the current selected sub-menu
         match self.current_selection:
             case "settings":
                 if self.animation_to == "settings":
@@ -74,6 +77,31 @@ class Menu():
                         self.data["settings"]["color3"] = (80,80,80)
                         self.data["settings"]["color_text"] = (255,255,255)
                         functions.Save_settings(self.data)
+            
+            case "edit":
+                if self.animation_to == "edit":
+                    for last_card in range(0,len(self.data.get("recent"))+1):
+                        #Last element is the other and new cards element.
+                        if last_card == len(self.data.get("recent")):
+                            if self.button_obj.Button((self.data.get("width")//2-220,self.data.get("height")//2+50*last_card,100,40),3,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),["New"],15,middle_text=False):
+                                selected_file = easygui.enterbox("Give your new cards-set a name","Vocabify")
+                                self.data["cards"] = selected_file
+                                self.data["change_mode"] = "edit"
+                            if self.button_obj.Button((self.data.get("width")//2-120,self.data.get("height")//2+50*last_card,100,40),3,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),["All"],15,middle_text=False):
+                                options = os.listdir("cards")
+                                options.append("")
+                                options.append("")
+                                selected_file = easygui.choicebox("Select the card-set you want to edit","Vocabify",options)
+                                if selected_file != None and selected_file != "":
+                                    self.data["cards"] = selected_file
+                                    self.data["change_mode"] = "edit"
+                        
+                        #Last recent cards
+                        else:
+                            edit_recent_card = self.button_obj.Button((self.data.get("width")//2-220,self.data.get("height")//2+50*last_card,200,40),3,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[self.data.get("recent")[last_card]],15,middle_text=False)
+                            if self.button_obj.Button((self.data.get("width")//2-60,self.data.get("height")//2+50*last_card,40,40),3,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[],15,self.img_small_edit) or edit_recent_card:
+                                self.data["cards"] = self.data.get('recent')[last_card]
+                                self.data["change_mode"] = "edit"
 
 
 

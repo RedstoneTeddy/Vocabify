@@ -70,7 +70,12 @@ def init_data():
         "log_list":[],
         "log_timer":0,
         "fullscreen":False,
-        "mode":"menu"
+        "mode":"menu",
+        "change_mode":None,
+        "cards":"",
+        "recent":[],
+        "key_pressed": None,
+        "mouse_wheel":None
     }
     return data
 
@@ -83,6 +88,7 @@ def Save_settings(data):
     settings_text += f"{data.get('settings').get('color2')}\n"
     settings_text += f"{data.get('settings').get('color3')}\n"
     settings_text += f"{data.get('settings').get('color_text')}\n"
+    settings_text += f"{data.get('recent')}\n"
     file.write(settings_text)
     file.close()
 
@@ -96,6 +102,7 @@ def Load_settings(data):
     data["settings"]["color2"] = eval(lines[1])
     data["settings"]["color3"] = eval(lines[2])
     data["settings"]["color_text"] = eval(lines[3])
+    data["recent"] = eval(lines[4])
     file.close()
 
 

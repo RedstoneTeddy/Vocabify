@@ -17,7 +17,7 @@ import functions
 import logger
 
 #Version
-version = "0.1.0"
+version = "0.1.1"
 
 debug = False
 log = False
@@ -43,6 +43,10 @@ if not(os_path.isdir("cards")):
 #Object initialization
 import menu
 menu_obj = menu.Menu(data,screen)
+import transmission
+transmission_obj = transmission.Transmission(data,screen)
+import tools.edit
+edit_obj = tools.edit.Edit(data,screen)
 
 
 
@@ -61,21 +65,26 @@ try:
         match data.get("mode"):
             case "menu":
                 menu_obj.Main()
+            case "edit":
+                edit_obj.Main()
             case other:
                 raise ValueError("Unknown mode!")
 
 
+        transmission_obj.Main()
             
         #Debug & Logger
         if pygame.key.get_pressed()[pygame.K_q] == True:
-            if debug_clicked == False:
-                debug_clicked = True
-                debug = not(debug)
-        else:
-            if pygame.key.get_pressed()[pygame.K_l] == True:
+            if pygame.key.get_pressed()[pygame.K_LCTRL] or pygame.key.get_pressed()[pygame.K_RCTRL]:
                 if debug_clicked == False:
                     debug_clicked = True
-                    log = not(log)
+                    debug = not(debug)
+        else:
+            if pygame.key.get_pressed()[pygame.K_l] == True:
+                if pygame.key.get_pressed()[pygame.K_LCTRL] or pygame.key.get_pressed()[pygame.K_RCTRL]:
+                    if debug_clicked == False:
+                        debug_clicked = True
+                        log = not(log)
             else:
                 debug_clicked = False
         if debug == True:
@@ -108,6 +117,7 @@ try:
 
         pygame.display.update()
         
+        data["key_pressed"] = None
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 data["run"] = False
@@ -116,6 +126,20 @@ try:
                     data["mouse_wheel"] = "up"
                 if event.button == 5:
                     data["mouse_wheel"] = "down"
+            if event.type == pygame.KEYDOWN:
+                # Check for backspace
+                if event.key == pygame.K_BACKSPACE:
+                    data["key_pressed"] = "back"
+                elif event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
+                    data["key_pressed"] = "enter"
+                elif event.key == pygame.K_TAB:
+                    data["key_pressed"] = "tab"
+                elif event.key == pygame.K_ESCAPE:
+                    data["key_pressed"] = "esc"
+                else:
+                    data["key_pressed"] = event.unicode
+        
+        pygame.key.get_pressed()
 
         end_time = time.time_ns()
         data["mspf"] = round((end_time-start_time)/1000000,1)
