@@ -26,7 +26,7 @@ def Font(size,data):
         data[needed_size] = pygame.font.Font('images/calibri.TTF',int(needed_size))
     return data.get(needed_size)
 
-def init_data():
+def init_data(version):
     font12 = pygame.font.Font('images/calibri.TTF',12)
     font13 = pygame.font.Font('images/calibri.TTF',13)
     font14 = pygame.font.Font('images/calibri.TTF',14)
@@ -40,6 +40,7 @@ def init_data():
 
 
     data = {
+        "version":version,
         "resize":False,     #True, when the window got resized
         "width":1000,
         "height":600,

@@ -17,13 +17,13 @@ import functions
 import logger
 
 #Version
-version = "0.1.1"
+version = "0.1.2"
 
 debug = False
 log = False
 debug_clicked = False
 fullscreen_pressed = False
-data = functions.init_data()
+data = functions.init_data(version)
 logger.Add(data,"main","main",0,"This is the logger. Any logged Info will be in here...")
 
 

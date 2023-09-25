@@ -83,11 +83,11 @@ class Menu():
                     for last_card in range(0,len(self.data.get("recent"))+1):
                         #Last element is the other and new cards element.
                         if last_card == len(self.data.get("recent")):
-                            if self.button_obj.Button((self.data.get("width")//2-220,self.data.get("height")//2+50*last_card,100,40),3,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),["New"],15,middle_text=False):
+                            if self.button_obj.Button((self.data.get("width")//2-220,self.data.get("height")//2+50*last_card-110,100,40),3,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),["New"],15,middle_text=False):
                                 selected_file = easygui.enterbox("Give your new cards-set a name","Vocabify")
                                 self.data["cards"] = selected_file
                                 self.data["change_mode"] = "edit"
-                            if self.button_obj.Button((self.data.get("width")//2-120,self.data.get("height")//2+50*last_card,100,40),3,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),["All"],15,middle_text=False):
+                            if self.button_obj.Button((self.data.get("width")//2-120,self.data.get("height")//2+50*last_card-110,100,40),3,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),["All"],15,middle_text=False):
                                 options = os.listdir("cards")
                                 options.append("")
                                 options.append("")
@@ -98,8 +98,8 @@ class Menu():
                         
                         #Last recent cards
                         else:
-                            edit_recent_card = self.button_obj.Button((self.data.get("width")//2-220,self.data.get("height")//2+50*last_card,200,40),3,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[self.data.get("recent")[last_card]],15,middle_text=False)
-                            if self.button_obj.Button((self.data.get("width")//2-60,self.data.get("height")//2+50*last_card,40,40),3,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[],15,self.img_small_edit) or edit_recent_card:
+                            edit_recent_card = self.button_obj.Button((self.data.get("width")//2-220,self.data.get("height")//2+50*last_card-110,200,40),3,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[self.data.get("recent")[last_card]],15,middle_text=False)
+                            if self.button_obj.Button((self.data.get("width")//2-60,self.data.get("height")//2+50*last_card-110,40,40),3,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[],15,self.img_small_edit) or edit_recent_card:
                                 self.data["cards"] = self.data.get('recent')[last_card]
                                 self.data["change_mode"] = "edit"
 
@@ -132,6 +132,17 @@ class Menu():
                         else:
                             self.animation_timer = 0
 
+                        #Credits
+                        functions.draw_text(f"Installed Version: {self.data.get('version')}",self.data['fonts'](15,self.data),self.data.get("settings").get("color2"),(self.data.get("width")-150,self.data.get("height")-45),self.screen)
+                        functions.draw_text("Created by Jeremy R.",self.data['fonts'](15,self.data),self.data.get("settings").get("color2"),(self.data.get("width")-135,self.data.get("height")-30),self.screen)
+                        functions.draw_text("[Open Github Respository]",self.data['fonts'](15,self.data),self.data.get("settings").get("color2"),(self.data.get("width")-170,self.data.get("height")-15),self.screen)
+                        if pygame.mouse.get_pressed()[0] == True:
+                            if buttons.in_range_2d(pygame.mouse.get_pos(),[self.data.get("width")-170,self.data.get("height")-45,170,45]):
+                                if self.button_obj.clicked == False:
+                                    self.button_obj.clicked = True
+                                    import webbrowser
+                                    webbrowser.open('https://github.com/RedstoneTeddy/Vocabify')
+                    
                     case "learn":
                         self.animation_timer += 1
                         if self.animation_timer < 16:

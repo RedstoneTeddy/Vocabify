@@ -53,7 +53,9 @@ class Edit():
             self.scroll_y = 0
             self.current_selection = -1 #Nothing selected
 
-
+        ###########################
+        ###Show alternatives but separated with a semciolon, and also possibility to add alternative words with just a semicolon
+        ###########################
 
         #Main Cards Front & Back
         functions.draw_text("Front",self.data["fonts"](22,self.data),self.data.get("settings").get("color2"),[self.data.get("width")//2-55,178+self.scroll_y],self.screen)
