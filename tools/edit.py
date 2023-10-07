@@ -87,8 +87,10 @@ class Edit():
                         del self.cards_phase[i//2]
                         del self.cards_last_wrong[i//2]
                         del self.all_right[i//2]
-                        del self.current_selection[i//2]
+                        del self.all_wrong[i//2]
                         self.current_selection -= 1
+                        break
+                        
 
                 if self.current_selection == i:
                     if i%2==0: #Front
@@ -165,19 +167,34 @@ class Edit():
         '''
         Loads the current card-set and writes it into the recent-cards list
         '''
-        file_handler = open("cards/"+self.data.get("cards"),"r")
-        self.cards_data = []
-        for line in file_handler.readlines():
-            self.cards_data.append(eval(line))
-        file_handler.close()
+        try:
+            file_handler = open("cards/"+self.data.get("cards"),"r")
+            self.cards_data = []
+            self.cards_front = []
+            self.cards_back = []
+            self.cards_phase = []
+            self.cards_last_wrong = []
+            self.all_right = []
+            self.all_wrong = []
+            for line in file_handler.readlines():
+                self.cards_data.append(eval(line))
+            file_handler.close()
 
-        for line in self.cards_data:
-            self.cards_front.append(line[0])
-            self.cards_back.append(line[1])
-            self.cards_phase.append(line[2])
-            self.cards_last_wrong.append(line[3])
-            self.all_right.append(line[4])
-            self.all_wrong.append(line[5])
+            for line in self.cards_data:
+                self.cards_front.append(line[0])
+                self.cards_back.append(line[1])
+                self.cards_phase.append(line[2])
+                self.cards_last_wrong.append(line[3])
+                self.all_right.append(line[4])
+                self.all_wrong.append(line[5])
+        except FileNotFoundError:
+            self.cards_data = []
+            self.cards_front = []
+            self.cards_back = []
+            self.cards_phase = []
+            self.cards_last_wrong = []
+            self.all_right = []
+            self.all_wrong = []
 
 
         if self.data["cards"] not in self.data["recent"]:
@@ -195,7 +212,10 @@ class Edit():
 
         text = ""
         for i in range(0,len(self.cards_front)):
-            text += str([self.cards_front[i],self.cards_back[i],self.cards_phase[i],self.cards_last_wrong[i],self.all_right[i],self.all_wrong[i]]) +"\n"
+            if i == len(self.cards_front)-1:
+                text += str([self.cards_front[i],self.cards_back[i],self.cards_phase[i],self.cards_last_wrong[i],self.all_right[i],self.all_wrong[i]])
+            else:
+                text += str([self.cards_front[i],self.cards_back[i],self.cards_phase[i],self.cards_last_wrong[i],self.all_right[i],self.all_wrong[i]]) +"\n"
 
         file_handler.write(text)
         file_handler.close()

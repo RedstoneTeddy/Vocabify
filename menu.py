@@ -102,6 +102,54 @@ class Menu():
                             if self.button_obj.Button((self.data.get("width")//2-60,self.data.get("height")//2+50*last_card-110,40,40),3,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[],15,self.img_small_edit) or edit_recent_card:
                                 self.data["cards"] = self.data.get('recent')[last_card]
                                 self.data["change_mode"] = "edit"
+                                
+            case "learn":
+                if self.animation_to == "learn":
+                    for last_card in range(0,len(self.data.get("recent"))+1):
+                        #Last element is the other and new cards element.
+                        if last_card == len(self.data.get("recent")):
+                            if self.button_obj.Button((self.data.get("width")//2-200,self.data.get("height")//2+50*last_card-110,160,40),3,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),["All"],15,middle_text=False):
+                                options = os.listdir("cards")
+                                options.append("")
+                                options.append("")
+                                selected_file = easygui.choicebox("Select the card-set you want to learn","Vocabify",options)
+                                if selected_file != None and selected_file != "":
+                                    self.data["cards"] = selected_file
+                                    self.data["change_mode"] = "learn"
+                        
+                        #Last recent cards
+                        else:
+                            if self.button_obj.Button((self.data.get("width")//2-220,self.data.get("height")//2+50*last_card-110,200,40),3,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[self.data.get("recent")[last_card]],15,middle_text=False):
+                                self.data["cards"] = self.data.get('recent')[last_card]
+                                self.data["change_mode"] = "learn"
+                                
+            case "learn_custom":
+                if self.animation_to == "learn_custom":
+                    if self.button_obj.Button((self.data.get("width")//2-220,self.data.get("height")//2+50*1-110,200,40),3,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),["Cards"],15,middle_text=False):
+                        options = os.listdir("cards")
+                        options.append("")
+                        options.append("")
+                        selected_file = easygui.choicebox("Select the card-set you want to learn","Vocabify",options)
+                        if selected_file != None and selected_file != "":
+                            self.data["cards"] = selected_file
+                            self.data["change_mode"] = "learn_cards"
+                    if self.button_obj.Button((self.data.get("width")//2-220,self.data.get("height")//2+50*2-110,200,40),3,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),["Multiple Choice"],15,middle_text=False):
+                        options = os.listdir("cards")
+                        options.append("")
+                        options.append("")
+                        selected_file = easygui.choicebox("Select the card-set you want to learn","Vocabify",options)
+                        if selected_file != None and selected_file != "":
+                            self.data["cards"] = selected_file
+                            self.data["change_mode"] = "learn_multiple"
+                    if self.button_obj.Button((self.data.get("width")//2-220,self.data.get("height")//2+50*3-110,200,40),3,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),["Write"],15,middle_text=False):
+                        options = os.listdir("cards")
+                        options.append("")
+                        options.append("")
+                        selected_file = easygui.choicebox("Select the card-set you want to learn","Vocabify",options)
+                        if selected_file != None and selected_file != "":
+                            self.data["cards"] = selected_file
+                            self.data["change_mode"] = "learn_write"
+
 
 
 

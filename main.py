@@ -17,7 +17,7 @@ import functions
 import logger
 
 #Version
-version = "0.1.2"
+version = "0.2.1"
 
 debug = False
 log = False
@@ -47,6 +47,10 @@ import transmission
 transmission_obj = transmission.Transmission(data,screen)
 import tools.edit
 edit_obj = tools.edit.Edit(data,screen)
+import tools.learn
+learn_obj = tools.learn.Learn(data,screen)
+import tools.learn_cards
+learn_cards_obj = tools.learn_cards.Learn(data,screen)
 
 
 
@@ -67,6 +71,10 @@ try:
                 menu_obj.Main()
             case "edit":
                 edit_obj.Main()
+            case "learn":
+                learn_obj.Main()
+            case "learn_cards":
+                learn_cards_obj.Main()
             case other:
                 raise ValueError("Unknown mode!")
 
@@ -153,8 +161,15 @@ except:
     data["run"] = False
 
 
-pygame.quit()
+match data.get("mode"):
+    case "edit":
+        edit_obj.Save()
+    case "learn":
+        learn_obj.Save()
+
+
 functions.Save_settings(data)
+pygame.quit()
 
 
 
