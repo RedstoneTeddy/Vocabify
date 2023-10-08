@@ -17,7 +17,7 @@ import functions
 import logger
 
 #Version
-version = "0.2.1"
+version = "0.2.2"
 
 debug = False
 log = False
@@ -51,6 +51,8 @@ import tools.learn
 learn_obj = tools.learn.Learn(data,screen)
 import tools.learn_cards
 learn_cards_obj = tools.learn_cards.Learn(data,screen)
+import tools.learn_multiple
+learn_multiple_obj = tools.learn_multiple.Learn(data,screen)
 
 
 
@@ -75,6 +77,8 @@ try:
                 learn_obj.Main()
             case "learn_cards":
                 learn_cards_obj.Main()
+            case "learn_multiple":
+                learn_multiple_obj.Main()
             case other:
                 raise ValueError("Unknown mode!")
 

@@ -11,7 +11,7 @@ from copy import deepcopy
 
 class Learn():
     '''
-    A class that handles the cards editing function of the programm.
+    A class the possibility to learn the cards by multiple choice
     '''
     def __init__(self, data:dict,screen:object) -> object:
         '''
@@ -40,8 +40,11 @@ class Learn():
         self.button_obj = buttons.Button(screen,data)
         self.img_home = pygame.transform.scale(pygame.image.load("images/menu/home.png").convert_alpha(),(32,32))
         self.learn_words = []
+        self.other_words = []
+        self.choices = []
         self.learn_words_position = 0
         self.show_result = False
+        self.selected = -1
 
 
     def Main(self):
@@ -58,13 +61,67 @@ class Learn():
                 easygui.msgbox("Perfect!\nYou mastered all cards.\nThe cards will be reshuffled.","Vocabify")
             self.New_words()
 
+
         if self.show_result == False:
-            if self.button_obj.Button([20,20,self.data.get("width")-40,self.data.get("height")-40-50],5,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[self.cards_front[self.learn_words[self.learn_words_position]][0]],25):
+            self.selected = -1
+            self.button_obj.Button([20,20,self.data.get("width")-40,self.data.get("height")//2-20],5,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[self.cards_front[self.learn_words[self.learn_words_position]][0]],25)
+            if self.button_obj.Button([20,self.data.get("height")//2,self.data.get("width")//2-20,self.data.get("height")//4-30],5,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[self.cards_back[self.choices[self.learn_words_position][0]][0]],20):
                 self.show_result = True
+                self.selected = self.choices[self.learn_words_position][0]
+            if self.button_obj.Button([self.data.get("width")//2,self.data.get("height")//2,self.data.get("width")//2-20,self.data.get("height")//4-30],5,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[self.cards_back[self.choices[self.learn_words_position][1]][0]],20):
+                self.show_result = True
+                self.selected = self.choices[self.learn_words_position][1]
+            if self.button_obj.Button([20,self.data.get("height")//4*3-30,self.data.get("width")//2-20,self.data.get("height")//4-30],5,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[self.cards_back[self.choices[self.learn_words_position][2]][0]],20):
+                self.show_result = True
+                self.selected = self.choices[self.learn_words_position][2]
+            if self.button_obj.Button([self.data.get("width")//2,self.data.get("height")//4*3-30,self.data.get("width")//2-20,self.data.get("height")//4-30],5,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[self.cards_back[self.choices[self.learn_words_position][3]][0]],20):
+                self.show_result = True
+                self.selected = self.choices[self.learn_words_position][3]
         else:
-            if self.button_obj.Button([20,20,self.data.get("width")-40,self.data.get("height")-40-50],5,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[self.cards_back[self.learn_words[self.learn_words_position]][0]],25):
-                self.show_result = False
-            functions.draw_text("Back",self.data["fonts"](18,self.data),self.data.get("settings").get("color2"),[25,self.data.get("height")-20-70],self.screen)
+            self.button_obj.Button([20,20,self.data.get("width")-40,self.data.get("height")//2-20],5,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[self.cards_front[self.learn_words[self.learn_words_position]][0]],25)
+            
+            if self.selected == self.choices[self.learn_words_position][0]:
+                if self.selected == self.learn_words[self.learn_words_position]:
+                    self.button_obj.Button([20,self.data.get("height")//2,self.data.get("width")//2-20,self.data.get("height")//4-30],5,self.data.get("settings").get("color3"),(50,205,50),[self.cards_back[self.choices[self.learn_words_position][0]][0]],20)
+                else:
+                    self.button_obj.Button([20,self.data.get("height")//2,self.data.get("width")//2-20,self.data.get("height")//4-30],5,self.data.get("settings").get("color3"),(255,100,100),[self.cards_back[self.choices[self.learn_words_position][0]][0]],20)
+            elif self.choices[self.learn_words_position][0] == self.learn_words[self.learn_words_position]:
+                self.button_obj.Button([20,self.data.get("height")//2,self.data.get("width")//2-20,self.data.get("height")//4-30],5,self.data.get("settings").get("color3"),(0,200,0),[self.cards_back[self.choices[self.learn_words_position][0]][0]],20)
+            else:
+                self.button_obj.Button([20,self.data.get("height")//2,self.data.get("width")//2-20,self.data.get("height")//4-30],5,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[self.cards_back[self.choices[self.learn_words_position][0]][0]],20)
+
+            if self.selected == self.choices[self.learn_words_position][1]:
+                if self.selected == self.learn_words[self.learn_words_position]:
+                    self.button_obj.Button([self.data.get("width")//2,self.data.get("height")//2,self.data.get("width")//2-20,self.data.get("height")//4-30],5,self.data.get("settings").get("color3"),(50,205,50),[self.cards_back[self.choices[self.learn_words_position][1]][0]],20)
+                else:
+                    self.button_obj.Button([self.data.get("width")//2,self.data.get("height")//2,self.data.get("width")//2-20,self.data.get("height")//4-30],5,self.data.get("settings").get("color3"),(255,100,100),[self.cards_back[self.choices[self.learn_words_position][1]][0]],20)
+            elif self.choices[self.learn_words_position][1] == self.learn_words[self.learn_words_position]:
+                self.button_obj.Button([self.data.get("width")//2,self.data.get("height")//2,self.data.get("width")//2-20,self.data.get("height")//4-30],5,self.data.get("settings").get("color3"),(0,200,0),[self.cards_back[self.choices[self.learn_words_position][1]][0]],20)
+            else:
+                self.button_obj.Button([self.data.get("width")//2,self.data.get("height")//2,self.data.get("width")//2-20,self.data.get("height")//4-30],5,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[self.cards_back[self.choices[self.learn_words_position][1]][0]],20)
+
+            if self.selected == self.choices[self.learn_words_position][2]:
+                if self.selected == self.learn_words[self.learn_words_position]:
+                    self.button_obj.Button([20,self.data.get("height")//4*3-30,self.data.get("width")//2-20,self.data.get("height")//4-30],5,self.data.get("settings").get("color3"),(50,205,50),[self.cards_back[self.choices[self.learn_words_position][2]][0]],20)
+                else:
+                    self.button_obj.Button([20,self.data.get("height")//4*3-30,self.data.get("width")//2-20,self.data.get("height")//4-30],5,self.data.get("settings").get("color3"),(255,100,100),[self.cards_back[self.choices[self.learn_words_position][2]][0]],20)
+            elif self.choices[self.learn_words_position][2] == self.learn_words[self.learn_words_position]:
+                self.button_obj.Button([20,self.data.get("height")//4*3-30,self.data.get("width")//2-20,self.data.get("height")//4-30],5,self.data.get("settings").get("color3"),(0,200,0),[self.cards_back[self.choices[self.learn_words_position][2]][0]],20)
+            else:
+                self.button_obj.Button([20,self.data.get("height")//4*3-30,self.data.get("width")//2-20,self.data.get("height")//4-30],5,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[self.cards_back[self.choices[self.learn_words_position][2]][0]],20)
+
+            if self.selected == self.choices[self.learn_words_position][3]:
+                if self.selected == self.learn_words[self.learn_words_position]:
+                    self.button_obj.Button([self.data.get("width")//2,self.data.get("height")//4*3-30,self.data.get("width")//2-20,self.data.get("height")//4-30],5,self.data.get("settings").get("color3"),(50,205,50),[self.cards_back[self.choices[self.learn_words_position][3]][0]],20)
+                else:
+                    self.button_obj.Button([self.data.get("width")//2,self.data.get("height")//4*3-30,self.data.get("width")//2-20,self.data.get("height")//4-30],5,self.data.get("settings").get("color3"),(255,100,100),[self.cards_back[self.choices[self.learn_words_position][3]][0]],20)
+            elif self.choices[self.learn_words_position][3] == self.learn_words[self.learn_words_position]:
+                    self.button_obj.Button([self.data.get("width")//2,self.data.get("height")//4*3-30,self.data.get("width")//2-20,self.data.get("height")//4-30],5,self.data.get("settings").get("color3"),(0,200,0),[self.cards_back[self.choices[self.learn_words_position][3]][0]],20)
+            else:
+                self.button_obj.Button([self.data.get("width")//2,self.data.get("height")//4*3-30,self.data.get("width")//2-20,self.data.get("height")//4-30],5,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[self.cards_back[self.choices[self.learn_words_position][3]][0]],20)
+
+                 
+
         functions.draw_text(f"{self.learn_words_position}/{len(self.learn_words)}",self.data["fonts"](18,self.data),self.data.get("settings").get("color2"),[25,25],self.screen)    
         if self.learn_words_position >= 1:
             if self.button_obj.Button([0,self.data.get("height")-5-50,100,50],4,(0,133,13),self.data.get("settings").get("color2"),["Previous"],21):
@@ -95,9 +152,25 @@ class Learn():
 
 
     def New_words(self):
+        self.other_words = []
+        self.choices = []
         self.learn_words_position = 0
         self.learn_words = list(range(len(self.cards_front)))
         random.shuffle(self.learn_words)
+        for word in self.learn_words:
+            self.other_words.append([])
+            self.choices.append([])
+            run = True
+            while run:
+                other = random.randrange(0,len(self.learn_words))
+                if other != word:
+                    self.other_words[-1].append(other)
+                if len(self.other_words[-1]) >= 3:
+                    run = False
+            self.choices[-1].append(word)
+            self.choices[-1].extend(self.other_words[-1])
+            random.shuffle(self.choices[-1])
+
 
         
         
