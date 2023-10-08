@@ -57,6 +57,7 @@ class Button():
         text -> What text should be displayed. Every element in the list is a line.
         font_size -> How big the font should be
         img -> An optional image to display before the text, needs to already be a pygame.image object
+        middle_text -> Default: True. If False, the text won't be middled.
 
         Returns:
         A boolean, if the button got clicked
@@ -89,8 +90,6 @@ class Button():
                     Center_draw_text(str(text_line),self.data["fonts"](font_size,self.data),line_color,(rect[0],rect[1]+rect[3]//2+i*(font_size+2)),(rect[2],font_size+2),self.screen)
                 else:
                     Draw_text(str(text_line),self.data["fonts"](font_size,self.data),line_color,rect[0]+4,rect[1]+rect[3]//2+i*(font_size+2),self.screen)
-
-
 
         if pygame.mouse.get_pressed()[0] == True:
             if self.clicked == False:

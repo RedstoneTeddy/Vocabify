@@ -17,7 +17,7 @@ import functions
 import logger
 
 #Version
-version = "0.2.2"
+version = "0.2.3"
 
 debug = False
 log = False
@@ -53,6 +53,8 @@ import tools.learn_cards
 learn_cards_obj = tools.learn_cards.Learn(data,screen)
 import tools.learn_multiple
 learn_multiple_obj = tools.learn_multiple.Learn(data,screen)
+import tools.learn_write
+learn_write_obj = tools.learn_write.Learn(data,screen)
 
 
 
@@ -79,12 +81,13 @@ try:
                 learn_cards_obj.Main()
             case "learn_multiple":
                 learn_multiple_obj.Main()
+            case "learn_write":
+                learn_write_obj.Main()
             case other:
                 raise ValueError("Unknown mode!")
 
 
         transmission_obj.Main()
-            
         #Debug & Logger
         if pygame.key.get_pressed()[pygame.K_q] == True:
             if pygame.key.get_pressed()[pygame.K_LCTRL] or pygame.key.get_pressed()[pygame.K_RCTRL]:
@@ -127,6 +130,7 @@ try:
         if data.get("mouse_wheel") != None:
             data["mouse_wheel"] = None
 
+
         pygame.display.update()
         
         data["key_pressed"] = None
@@ -163,6 +167,7 @@ try:
 except:
     easygui.exceptionbox(f"A fatal Error occured in the Vocabify App and the program crashed! Log:\n{data.get('log_list')}","Vocabify-Error!")
     data["run"] = False
+    raise
 
 
 match data.get("mode"):
