@@ -56,6 +56,7 @@ def init_data(version):
             "color_text": (0,0,0)
         },
         "fonts":Font,
+        "last_learn_generation_ms":-1,
         "font_data":{
             "12":font12,
             "13":font13,

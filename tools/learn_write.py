@@ -11,7 +11,7 @@ from copy import deepcopy
 
 class Learn():
     '''
-    A class the possibility to learn the cards by a writing them
+    A class that handles the possibility to learn the cards by a writing them
     '''
     def __init__(self, data:dict,screen:object) -> object:
         '''

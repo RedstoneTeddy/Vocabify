@@ -11,7 +11,7 @@ from copy import deepcopy
 
 class Learn():
     '''
-    A class the possibility to learn the cards by a classic way
+    A class that handles the possibility to learn the cards by a classic way
     '''
     def __init__(self, data:dict,screen:object) -> object:
         '''

@@ -17,7 +17,7 @@ import functions
 import logger
 
 #Version
-version = "0.2.3"
+version = "0.2.4"
 
 debug = False
 log = False
@@ -103,9 +103,10 @@ try:
             else:
                 debug_clicked = False
         if debug == True:
-            pygame.draw.rect(screen,(255,255,255),(0,0,200,46))
+            pygame.draw.rect(screen,(255,255,255),(0,0,200,66))
             functions.draw_text(f"AVG MSPF: {data.get('avg_mspf')}|{data.get('long_avg_mspf')}",data.get("font_data").get("20"),(0,0,0),(3,3),screen)
-            functions.draw_text(f"Mouse Pos: {pygame.mouse.get_pos()}",data.get("font_data").get("20"),(0,0,0),(3,23),screen)
+            functions.draw_text(f"Last Learn gen: {data.get('last_learn_generation_ms')}µs",data.get("font_data").get("20"),(0,0,0),(3,23),screen)
+            functions.draw_text(f"Mouse Pos: {pygame.mouse.get_pos()}",data.get("font_data").get("20"),(0,0,0),(3,43),screen)
         if data.get("resize") == True:
             data["resize"] = False
         if log == True or data.get("log_timer") > 0:
