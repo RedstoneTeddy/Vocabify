@@ -51,6 +51,7 @@ class Learn():
         self.screen.fill(self.data.get("settings").get("color1"))
         if self.cards_data == []:
             self.Load()
+            self.show_result = False
             self.learn_words = []
             self.learn_words_position = 0
             if self.cards_data == []:

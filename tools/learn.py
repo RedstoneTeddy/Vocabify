@@ -58,6 +58,7 @@ class Learn():
         self.screen.fill(self.data.get("settings").get("color1"))
         if self.cards_data == []:
             self.Load()
+            self.show_result = False
             self.learn_words = []
             self.learn_words_position = 0
             if self.cards_data == []:
@@ -108,7 +109,7 @@ class Learn():
 
 
         if self.show_result == True:
-            if self.button_obj.Button([self.data.get("width")-100,self.data.get("height")-5-50,100,50],4,(0,133,13),self.data.get("settings").get("color2"),["Next"],21) or (pygame.key.get_pressed()[pygame.K_RIGHT] or pygame.key.get_pressed()[pygame.KSCAN_RIGHT]):
+            if self.button_obj.Button([self.data.get("width")-100,self.data.get("height")-5-50,100,50],4,(0,133,13),self.data.get("settings").get("color2"),["Next"],21) or (pygame.key.get_pressed()[pygame.K_RIGHT] or pygame.key.get_pressed()[pygame.KSCAN_RIGHT]) or pygame.key.get_pressed()[pygame.K_RETURN] or pygame.key.get_pressed()[pygame.K_KP_ENTER]:
                 if self.next_clicked == False:
                     self.next_clicked = True
                     self.show_result = False

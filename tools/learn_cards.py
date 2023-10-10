@@ -52,6 +52,7 @@ class Learn():
         if self.cards_data == []:
             self.Load()
             self.learn_words = []
+            self.show_result = False
             self.learn_words_position = 0
             if self.cards_data == []:
                 self.cards_data = [None]
