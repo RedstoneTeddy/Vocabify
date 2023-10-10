@@ -52,6 +52,8 @@ class Learn():
         self.current_right = True
         self.current_skipped = False
         self.last_weigths = []
+        self.next_clicked = False 
+        self.turn_card_click = False
 
 
     def Main(self):
@@ -189,7 +191,7 @@ class Learn():
                     self.entered += self.data.get("key_pressed")
             self.button_obj.Button([20,20,self.data.get("width")-40,self.data.get("height")//2-20],5,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[self.cards_front[self.learn_words[self.learn_words_position]][0]],25)
             if self.button_obj.Button([20,self.data.get("height")//2,self.data.get("width")-40,self.data.get("height")//2-60],5,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[self.entered],25) or pygame.key.get_pressed()[pygame.K_RETURN] or pygame.key.get_pressed()[pygame.K_KP_ENTER]:
-                if self.turn_card_click == False:
+                if self.turn_card_click == False and self.next_clicked == False:
                     self.show_result = True
                     self.next_clicked = True
                     self.turn_card_click = True
