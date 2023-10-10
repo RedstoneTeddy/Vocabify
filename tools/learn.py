@@ -191,6 +191,7 @@ class Learn():
             if self.button_obj.Button([20,self.data.get("height")//2,self.data.get("width")-40,self.data.get("height")//2-60],5,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[self.entered],25) or pygame.key.get_pressed()[pygame.K_RETURN] or pygame.key.get_pressed()[pygame.K_KP_ENTER]:
                 if self.turn_card_click == False:
                     self.show_result = True
+                    self.next_clicked = True
                     self.turn_card_click = True
             else:
                 self.turn_card_click = False
