@@ -137,9 +137,10 @@ class Edit():
 
 
         #Side Menu  
-        pygame.draw.rect(self.screen,self.data.get("settings").get("color1"),(0,0,250,42))
+        pygame.draw.rect(self.screen,self.data.get("settings").get("color1"),(0,0,250,62))
         functions.draw_text("Active Cards:",self.data["fonts"](18,self.data),self.data.get("settings").get("color2"),(90,2),self.screen)
         functions.draw_text(self.data.get("cards"),self.data["fonts"](18,self.data),self.data.get("settings").get("color2"),(90,22),self.screen)
+        functions.draw_text(f"{len(self.cards_front)} Cards",self.data["fonts"](18,self.data),self.data.get("settings").get("color2"),(90,42),self.screen)
 
 
         if self.button_obj.Button([10,90,70,70],3,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),["Swap"],20,self.img_swap):

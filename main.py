@@ -17,7 +17,7 @@ import functions
 import logger
 
 #Version
-version = "0.2.4"
+version = "0.2.5"
 
 debug = False
 log = False
@@ -112,6 +112,13 @@ try:
         if log == True or data.get("log_timer") > 0:
             logger.Main(data,screen,log)
         
+        if pygame.key.get_pressed()[pygame.K_LCTRL] or pygame.key.get_pressed()[pygame.K_RCTRL]:
+            pygame.draw.rect(screen,(255,255,255),(data.get("width")-223,0,223,86))
+            functions.draw_text("Debug-Keybindings",data.get("font_data").get("20"),(0,0,0),(data.get("width")-220,3),screen)
+            functions.draw_text("Debug: CTRL+Q",data.get("font_data").get("20"),(0,0,0),(data.get("width")-220,23),screen)
+            functions.draw_text("Logger: CTRL+L",data.get("font_data").get("20"),(0,0,0),(data.get("width")-220,43),screen)
+            functions.draw_text("Learn-Algorithm: CTRL+P",data.get("font_data").get("20"),(0,0,0),(data.get("width")-220,63),screen)
+        
         #Fullscreen
         if pygame.key.get_pressed()[pygame.K_F11] == True:
             if fullscreen_pressed == False:
@@ -154,7 +161,8 @@ try:
                 elif event.key == pygame.K_ESCAPE:
                     data["key_pressed"] = "esc"
                 else:
-                    data["key_pressed"] = event.unicode
+                    if event.unicode not in ["^","¨","´","`","~"]:
+                        data["key_pressed"] = event.unicode
         
         pygame.key.get_pressed()
 
