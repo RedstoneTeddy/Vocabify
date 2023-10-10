@@ -161,7 +161,10 @@ class Learn():
 
         text = ""
         for i in range(0,len(self.cards_front)):
-            text += str([self.cards_front[i],self.cards_back[i],self.cards_phase[i],self.cards_last_wrong[i],self.all_right[i],self.all_wrong[i]]) +"\n"
+            if i == len(self.cards_front)-1:
+                text += str([self.cards_front[i],self.cards_back[i],self.cards_phase[i],self.cards_last_wrong[i],self.all_right[i],self.all_wrong[i]])
+            else:
+                text += str([self.cards_front[i],self.cards_back[i],self.cards_phase[i],self.cards_last_wrong[i],self.all_right[i],self.all_wrong[i]]) +"\n"
 
         file_handler.write(text)
         file_handler.close()
