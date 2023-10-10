@@ -524,6 +524,12 @@ class Learn():
         '''
         file_handler = open("cards/"+self.data.get("cards"),"r")
         self.cards_data = []
+        self.cards_front = []
+        self.cards_back = []
+        self.cards_phase = [] 
+        self.cards_last_wrong = []
+        self.all_right = [] 
+        self.all_wrong = [] 
         for line in file_handler.readlines():
             self.cards_data.append(eval(line))
         file_handler.close()
@@ -557,7 +563,7 @@ class Learn():
         Saves the current card-set and writes it into the recent-cards list
         '''
         file_handler = open("cards/"+self.data.get("cards"),"w")
-
+        print(len(self.cards_front))
         text = ""
         for i in range(0,len(self.cards_front)):
             if i == len(self.cards_front)-1:
