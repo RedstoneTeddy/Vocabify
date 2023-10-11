@@ -197,6 +197,7 @@ class Learn():
                     self.turn_card_click = True
             else:
                 self.turn_card_click = False
+                self.next_clicked = False
             functions.draw_text("Your answer:",self.data["fonts"](20,self.data),self.data.get("settings").get("color2"),(self.data.get("width")//2-55,self.data.get("height")//2+15),self.screen)
         else:
             if self.entered in self.cards_back[self.learn_words[self.learn_words_position]]:
@@ -215,10 +216,12 @@ class Learn():
                 if self.turn_card_click == False:
                     self.show_result = False
                     self.turn_card_click = True
+                    self.next_clicked = True
                     self.entered = ""
                     self.Next_word(self.learn_words[self.learn_words_position],self.current_right,self.current_skipped)
             else:
                 self.turn_card_click = False
+                self.next_clicked = False
             functions.draw_text("Your answer:",self.data["fonts"](20,self.data),self.data.get("settings").get("color2"),(self.data.get("width")//2-55,self.data.get("height")//2+15),self.screen)
             
         functions.draw_text(f"{self.learn_words_position}/{len(self.learn_words)}",self.data["fonts"](18,self.data),self.data.get("settings").get("color2"),[25,25],self.screen)    

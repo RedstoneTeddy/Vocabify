@@ -17,7 +17,7 @@ import functions
 import logger
 
 #Version
-version = "0.3.2c"
+version = "0.3.2d"
 
 debug = False
 log = False
