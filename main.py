@@ -17,12 +17,13 @@ import functions
 import logger
 
 #Version
-version = "0.3.2f"
+version = "0.3.3"
 
 debug = False
 log = False
 debug_clicked = False
 fullscreen_pressed = False
+delete_timer = 0
 data = functions.init_data(version)
 logger.Add(data,"main","main",0,"This is the logger. Any logged Info will be in here...")
 
@@ -154,6 +155,9 @@ try:
                 # Check for backspace
                 if event.key == pygame.K_BACKSPACE:
                     data["key_pressed"] = "back"
+                    delete_timer += 1
+                    if delete_timer > 60 and delete_timer%30==0:
+                        data["key_pressed"] = "back"
                 elif event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
                     data["key_pressed"] = "enter"
                 elif event.key == pygame.K_TAB:
@@ -161,6 +165,7 @@ try:
                 elif event.key == pygame.K_ESCAPE:
                     data["key_pressed"] = "esc"
                 else:
+                    delete_timer = 0
                     if event.unicode not in ["^","¨","´","`","~"]:
                         data["key_pressed"] = event.unicode
         

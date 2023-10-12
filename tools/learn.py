@@ -201,7 +201,7 @@ class Learn():
                     self.show_result = True
                     self.next_clicked = True
                     self.turn_card_click = True
-                    if self.entered in self.cards_front[self.learn_words[self.learn_words_position]]:
+                    if self.entered in self.cards_back[self.learn_words[self.learn_words_position]]:
                         self.current_right = True
                         self.current_skipped = False
                     else:
