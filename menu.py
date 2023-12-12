@@ -149,6 +149,14 @@ class Menu():
                         if selected_file != None and selected_file != "":
                             self.data["cards"] = selected_file
                             self.data["change_mode"] = "learn_write"
+                    if self.button_obj.Button((self.data.get("width")//2-220,self.data.get("height")//2+50*4-110,200,40),3,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),["Stealth mode"],15,middle_text=False):
+                        options = os.listdir("cards")
+                        options.append("")
+                        options.append("")
+                        selected_file = easygui.choicebox("Select the card-set you want to learn","Vocabify",options)
+                        if selected_file != None and selected_file != "":
+                            self.data["cards"] = selected_file
+                            self.data["change_mode"] = "learn_stealth"
 
 
 

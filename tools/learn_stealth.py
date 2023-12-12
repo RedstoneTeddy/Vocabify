@@ -11,11 +11,11 @@ from copy import deepcopy
 
 class Learn():
     '''
-    A class that handles the possibility to learn the cards by a writing them
+    A class that handles the possibility to learn the cards by a writing them in a stealth mode
     '''
     def __init__(self, data:dict,screen:object) -> object:
         '''
-        Initializes the Learn_write object.
+        Initializes the Learn_stealth object.
 
         Parameters:
         data -> The main data dictionary
@@ -49,7 +49,7 @@ class Learn():
 
 
     def Main(self):
-        self.screen.fill(self.data.get("settings").get("color1"))
+        self.screen.fill((0,0,0))
         if self.cards_data == []:
             self.Load()
             self.learn_words = []
@@ -63,7 +63,10 @@ class Learn():
                 easygui.msgbox("Perfect!\nYou mastered all cards.\nThe cards will be reshuffled.","Vocabify")
             self.New_words()
 
-
+        if pygame.key.get_pressed()[pygame.K_LALT] == True:
+            show_text = True
+        else:
+            show_text = False
         
         if self.data.get("key_pressed") != None and self.data.get("key_pressed") != "":
             if self.data.get("key_pressed") == "back":
@@ -71,42 +74,52 @@ class Learn():
             elif self.data.get("key_pressed") not in ["back","enter","tab","esc"]:
                 self.entered += self.data.get("key_pressed")
         if self.show_result == False:
-            self.button_obj.Button([20,20,self.data.get("width")-40,self.data.get("height")//2-20],5,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[self.cards_front[self.learn_words[self.learn_words_position]][0]],25)
-            if self.button_obj.Button([20,self.data.get("height")//2,self.data.get("width")-40,self.data.get("height")//2-60],5,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[self.entered],25) or pygame.key.get_pressed()[pygame.K_RETURN] or pygame.key.get_pressed()[pygame.K_KP_ENTER]:
-                if self.turn_card_click == False:
-                    self.show_result = True
-                    self.turn_card_click = True
+            if show_text == True:
+                functions.draw_text(self.cards_front[self.learn_words[self.learn_words_position]][0],self.data["fonts"](14,self.data),(255,255,255),(20,10),self.screen)
+                functions.draw_text(self.entered,self.data["fonts"](14,self.data),(255,255,255),(20,40),self.screen)
+                if self.button_obj.Button([20,self.data.get("height")//2,self.data.get("width")-40,self.data.get("height")//2-60],5,(0,0,0),(255,255,255),[""],25,no_outline=True):
+                    if self.turn_card_click == False:
+                        self.show_result = True
+                        self.turn_card_click = True
+                else:
+                    self.turn_card_click = False
             else:
-                self.turn_card_click = False
-            functions.draw_text("Your answer:",self.data["fonts"](20,self.data),self.data.get("settings").get("color2"),(self.data.get("width")//2-55,self.data.get("height")//2+15),self.screen)
+                if pygame.key.get_pressed()[pygame.K_RETURN] or pygame.key.get_pressed()[pygame.K_KP_ENTER]:
+                    if self.turn_card_click == False:
+                        self.show_result = True
+                        self.turn_card_click = True
+                else:
+                    self.turn_card_click = False
         else:
             if self.entered in self.cards_back[self.learn_words[self.learn_words_position]]:
-                self.button_obj.Button([20,self.data.get("height")//2,self.data.get("width")-40,self.data.get("height")//2-60],5,self.data.get("settings").get("color3"),(50,205,50),[self.entered],25)
-                functions.draw_text("Correct!",self.data["fonts"](20,self.data),(50,205,50),(self.data.get("width")//2-35,self.data.get("height")//2+35),self.screen)
+                pygame.draw.rect(self.screen,(255,255,255),(10,10,5,5))
             else:
-                self.button_obj.Button([20,self.data.get("height")//2,self.data.get("width")-40,self.data.get("height")//2-60],5,self.data.get("settings").get("color3"),(255,100,100),[self.entered],25)
-                functions.draw_text("Wrong!",self.data["fonts"](20,self.data),(255,100,100),(self.data.get("width")//2-30,self.data.get("height")//2+35),self.screen)
-            if self.button_obj.Button([20,20,self.data.get("width")-40,self.data.get("height")//2-20],5,self.data.get("settings").get("color3"),self.data.get("settings").get("color2"),[self.cards_front[self.learn_words[self.learn_words_position]][0],"==>",self.cards_back[self.learn_words[self.learn_words_position]][0]],25) or pygame.key.get_pressed()[pygame.K_RETURN] or pygame.key.get_pressed()[pygame.K_KP_ENTER]:
-                if self.turn_card_click == False:
-                    self.show_result = False
-                    self.learn_words_position += 1
-                    self.turn_card_click = True
-                    self.entered = ""
+                pygame.draw.rect(self.screen,(255,255,255),(self.data.get("width")-15,10,5,5))
+            if show_text == True:
+                
+                functions.draw_text(self.cards_front[self.learn_words[self.learn_words_position]][0],self.data["fonts"](14,self.data),(255,255,255),(20,10),self.screen)
+                functions.draw_text(self.cards_back[self.learn_words[self.learn_words_position]][0],self.data["fonts"](14,self.data),(255,255,255),(20,25),self.screen)
+                functions.draw_text(self.entered,self.data["fonts"](14,self.data),(255,255,255),(20,40),self.screen)
+
+                if self.button_obj.Button([20,55,self.data.get("width")-40,self.data.get("height")//2-20],5,(0,0,0),(255,255,255),[""],25,no_outline=True):
+                    if self.turn_card_click == False:
+                        self.show_result = False
+                        self.learn_words_position += 1
+                        self.turn_card_click = True
+                        self.entered = ""
+                else:
+                    self.turn_card_click = False
             else:
-                self.turn_card_click = False
-            functions.draw_text("Your answer:",self.data["fonts"](20,self.data),self.data.get("settings").get("color2"),(self.data.get("width")//2-55,self.data.get("height")//2+15),self.screen)
-            
-        functions.draw_text(f"{self.learn_words_position}/{len(self.learn_words)}",self.data["fonts"](18,self.data),self.data.get("settings").get("color2"),[25,25],self.screen)    
-        if self.learn_words_position >= 1:
-            if self.button_obj.Button([0,self.data.get("height")-5-50,100,50],4,(0,133,13),self.data.get("settings").get("color2"),["Previous"],21) or (pygame.key.get_pressed()[pygame.K_LEFT] or pygame.key.get_pressed()[pygame.KSCAN_LEFT]):
-                if self.previous_clicked == False:
-                    self.previous_clicked = True
-                    self.learn_words_position -= 1
-                    self.show_result = False
-                    self.entered = ""
-            else:
-                self.previous_clicked = False
-        if self.button_obj.Button([self.data.get("width")-100,self.data.get("height")-5-50,100,50],4,(0,133,13),self.data.get("settings").get("color2"),["Next"],21) or (pygame.key.get_pressed()[pygame.K_RIGHT] or pygame.key.get_pressed()[pygame.KSCAN_RIGHT]):
+                if pygame.key.get_pressed()[pygame.K_RETURN] or pygame.key.get_pressed()[pygame.K_KP_ENTER]:
+                    if self.turn_card_click == False:
+                        self.show_result = False
+                        self.learn_words_position += 1
+                        self.turn_card_click = True
+                        self.entered = ""
+                else:
+                    self.turn_card_click = False
+
+        if self.button_obj.Button([self.data.get("width")-100,self.data.get("height")-5-50,100,50],4,(0,0,0),(0,0,0),["Next"],21) or (pygame.key.get_pressed()[pygame.K_RIGHT] or pygame.key.get_pressed()[pygame.KSCAN_RIGHT]):
             if self.next_clicked == False:
                 self.next_clicked = True
                 self.learn_words_position += 1
@@ -118,11 +131,6 @@ class Learn():
 
 
 
-
-        if self.button_obj.Button([self.data.get("width")//2-50,self.data.get("height")-5-50,100,50],4,(0,133,13),self.data.get("settings").get("color2"),["Home"],22) or pygame.key.get_pressed()[pygame.K_ESCAPE]:
-            self.Save()
-            self.data["change_mode"] = "menu"
-            self.cards_data = []
 
         #Auto-Save
         self.auto_save_timer += 1

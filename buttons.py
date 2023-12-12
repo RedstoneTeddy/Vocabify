@@ -45,7 +45,7 @@ class Button():
         self.clicked = False
         self.data = data
 
-    def Button(self,rect:list,round_corner:int,background_color:list,line_color:list,text:list[str],font_size:int,img:pygame.image=None,middle_text=True) -> None:
+    def Button(self,rect:list,round_corner:int,background_color:list,line_color:list,text:list[str],font_size:int,img:pygame.image=None,middle_text=True,no_outline=False) -> None:
         '''
         Displays a button
 
@@ -58,13 +58,15 @@ class Button():
         font_size -> How big the font should be
         img -> An optional image to display before the text, needs to already be a pygame.image object
         middle_text -> Default: True. If False, the text won't be middled.
+        no_outline -> Default: False. If True, no outline on the box will be rendered
 
         Returns:
         A boolean, if the button got clicked
         '''
         output = None
         pygame.draw.rect(self.screen,background_color,rect,0,round_corner)
-        pygame.draw.rect(self.screen,line_color,rect,2,round_corner)
+        if no_outline == False:
+            pygame.draw.rect(self.screen,line_color,rect,2,round_corner)
 
         if img != None:
             img_size = img.get_size()

@@ -47,6 +47,7 @@ class Edit():
     def Main(self):
         self.screen.fill(self.data.get("settings").get("color1"))
         if self.cards_data == []:
+            print("Loading cards...")
             self.Load()
             if self.cards_data == []:
                 self.cards_data = [None]
@@ -153,6 +154,7 @@ class Edit():
             self.Save()
             self.data["change_mode"] = "menu"
             self.cards_data = []
+            self.auto_save_timer = 0
         
         #Auto-Save
         self.auto_save_timer += 1
@@ -170,6 +172,7 @@ class Edit():
         '''
         try:
             file_handler = open("cards/"+self.data.get("cards"),"r")
+            print(self.data.get("cards"))
             self.cards_data = []
             self.cards_front = []
             self.cards_back = []

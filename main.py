@@ -17,7 +17,7 @@ import functions
 import logger
 
 #Version
-version = "0.3.3"
+version = "0.4.0"
 
 debug = False
 log = False
@@ -56,6 +56,8 @@ import tools.learn_multiple
 learn_multiple_obj = tools.learn_multiple.Learn(data,screen)
 import tools.learn_write
 learn_write_obj = tools.learn_write.Learn(data,screen)
+import tools.learn_stealth
+learn_stealth_obj = tools.learn_stealth.Learn(data,screen)
 
 
 
@@ -84,6 +86,8 @@ try:
                 learn_multiple_obj.Main()
             case "learn_write":
                 learn_write_obj.Main()
+            case "learn_stealth":
+                learn_stealth_obj.Main()
             case other:
                 raise ValueError("Unknown mode!")
 
